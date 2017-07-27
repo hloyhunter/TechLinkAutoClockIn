@@ -1,5 +1,5 @@
 var login;
-chrome.storage.sync.get("LoginInfo", function (obj) {
+chrome.storage.local.get("LoginInfo", function (obj) {
 	login = obj.LoginInfo;
 });
 chrome.extension.sendMessage({}, function (response) {
@@ -13,9 +13,7 @@ chrome.extension.sendMessage({}, function (response) {
 			var userPasswd = document.getElementById('user_passwd');
 			var loginButton = document.getElementById('s_buttom');
 
-			if (!login.UserName || !login.Password) {
-				alert("帳號或密碼尚未儲存");
-			} else {
+			if(login) {
 				userName.value = login.UserName;
 				userPasswd.value = login.Password;
 				loginButton.click();

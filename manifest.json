@@ -27,7 +27,6 @@
 		"https://femascloud.com/techlink/*"
 	],
 	"content_scripts": [
-		//Login page
 		{
 			"matches": [
 				"https://femascloud.com/techlink/",

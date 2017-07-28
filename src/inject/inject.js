@@ -31,7 +31,7 @@ chrome.extension.sendMessage({}, function (response) {
 			var onDuty = $('.textBlue').first().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;
 			var offDuty = $('.textBlue').last().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;
 
-			if (now > onTime - 5000 && now < offTime && !onDuty) {
+			if (now > onTime - 500 && now < offTime && !onDuty) {
 				$('input[type=submit][value=0900]').click();
 			} else if (now > offTime && !offDuty) {
 				$('input[type=submit][value=1800]').click();

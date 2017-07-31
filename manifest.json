@@ -1,6 +1,6 @@
 {
 	"name": "緯德科技自動打卡",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"manifest_version": 2,
 	"description": "就是上下班自動幫你打卡啦",
 	"homepage_url": "https://femascloud.com/techlink/accounts/login",
@@ -24,13 +24,15 @@
 		"cookies",
 		"storage",
 		"tabs",
+		"alarms",
 		"https://femascloud.com/techlink/*"
 	],
 	"content_scripts": [
 		{
 			"matches": [
 				"https://femascloud.com/techlink/",
-				"https://femascloud.com/techlink/accounts/login"
+				"https://femascloud.com/techlink/Accounts/login*",
+				"https://femascloud.com/techlink/accounts/login*"
 			],
 			"js": [
 				"src/inject/inject_login.js"

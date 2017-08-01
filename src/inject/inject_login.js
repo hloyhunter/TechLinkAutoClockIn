@@ -1,5 +1,5 @@
 var login;
-chrome.storage.local.get("LoginInfo", function (obj) {
+chrome.storage.sync.get("LoginInfo", function (obj) {
 	login = obj.LoginInfo;
 });
 chrome.extension.sendMessage({}, function (response) {

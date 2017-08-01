@@ -1,5 +1,5 @@
 var timeInfo;
-chrome.storage.local.get('TimeInfo', function (obj) {
+chrome.storage.sync.get('TimeInfo', function (obj) {
 	timeInfo = obj.TimeInfo;
 });
 
@@ -24,18 +24,21 @@ chrome.extension.sendMessage({}, function (response) {
 			var onDuty = $('.textBlue').first().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;
 			var offDuty = $('.textBlue').last().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;
 
-			chrome.storage.local.set({
-				'DutyToday': {
-					'OnDuty': onDuty,
-					'OffDuty': offDuty
-				}
-			});
-
 			if (now > onTime - 500 && now < offTime && !onDuty) {
 				$('input[type=submit][value=0900]').click();
 			} else if (now > offTime && !offDuty) {
 				$('input[type=submit][value=1800]').click();
 			}
+
+			onDuty = $('.textBlue').first().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;
+			offDuty = $('.textBlue').last().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;
+
+			chrome.storage.sync.set({
+				'DutyToday': {
+					'OnDuty': onDuty,
+					'OffDuty': offDuty
+				}
+			});
 
 			WaitCloseTab(5);
 			// ----------------------------------------------------------

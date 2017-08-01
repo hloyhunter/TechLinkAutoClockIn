@@ -1,12 +1,12 @@
 //取得登入設定
 var loginInfo;
-chrome.storage.local.get("LoginInfo", function (obj) {
+chrome.storage.sync.get("LoginInfo", function (obj) {
 	loginInfo = obj.LoginInfo;
 });
 
 //取得時間設定
 var timeInfo;
-chrome.storage.local.get("TimeInfo", function (obj) {
+chrome.storage.sync.get("TimeInfo", function (obj) {
 	timeInfo = obj.TimeInfo;
 });
 
@@ -23,7 +23,7 @@ $(function () {
 	}
 
 	$('#btnSave').click(function () {
-		chrome.storage.local.set({
+		chrome.storage.sync.set({
 			'LoginInfo': {
 				'UserName': $('#UserName').val(),
 				'Password': $('#Password').val()
@@ -51,7 +51,7 @@ $(function () {
 			confirmButtonText: '確定',
 			cancelButtonText: '取消'
 		}).then(function () {
-			chrome.storage.local.remove(["LoginInfo", "TimeInfo"], function () {
+			chrome.storage.sync.remove(["LoginInfo", "TimeInfo"], function () {
 				$('#UserName').val();
 				$('#Password').val();
 				$('#OnTime').val();

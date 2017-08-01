@@ -1,6 +1,6 @@
 var timeInfo;
 var onTime, offTime;
-chrome.storage.local.get('TimeInfo', function (obj) {
+chrome.storage.sync.get('TimeInfo', function (obj) {
 	timeInfo = obj.TimeInfo;
 	if (timeInfo) {
 		onTime = parseInt(timeInfo.OnTime.replace(/:/g, "") + "00");
@@ -20,7 +20,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 	var d = new Date();
 	var now = parseInt(padLeft(d.getHours(), 2) + padLeft(d.getMinutes(), 2) + padLeft(d.getSeconds(), 2));
 
-	chrome.storage.local.get('DutyToday', function (obj) {
+	chrome.storage.sync.get('DutyToday', function (obj) {
 		dutyToday = obj.DutyToday;
 		if (dutyToday) {
 			onDuty = dutyToday.OnDuty;
@@ -30,6 +30,8 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 			offDuty = false;
 		}
 	});
+
+	DailyReset();
 
 	//邏輯:上班前五分鐘~下班時間前且未打上班 或 下班時間後且未打下班卡者，開網頁
 	if ((now > onTime - 0500 && now < offTime && !onDuty) ||
@@ -44,15 +46,6 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 		'onDuty: ' + onDuty + '\n' +
 		'offDuty: ' + offDuty);
 
-	//每晚即將換日時，已打卡都轉為false
-	if (now < 000500 || now > 235500) {
-		chrome.storage.local.set({
-			'DutyToday': {
-				'OnDuty': false,
-				'OffDuty': false
-			}
-		});
-	}
 });
 
 //擴充元件小圖示點擊事件
@@ -64,7 +57,9 @@ chrome.browserAction.onClicked.addListener(function (activeTab) {
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	if (request.command == 'closeTab') {
 		chrome.tabs.query(
-			{ active: true },
+			{
+				url: 'https://femascloud.com/techlink/*sers/*ain*'
+			},
 			function (tabs) {
 				if (tabs) {
 					chrome.tabs.remove(tabs[0].id);
@@ -72,6 +67,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 			}
 		);
 	}
+});
+
+chrome.storage.onChanged.addListener(function (changes, areaName) {
+	console.log(changes);
+	console.log(areaName);
 });
 
 //custom funcrions
@@ -89,4 +89,31 @@ function padRight(str, length) {
 		return str;
 	else
 		return padRight(str + "0", length);
+}
+
+function DailyReset() {
+	var dt = new Date().getDate();
+	var lastDate;
+
+	chrome.storage.sync.get('DayCheck', function (obj) {
+		lastDate = obj.DayCheck.LastDate;
+		console.log('lastDate: ' + lastDate + '\n' +
+			'dt: ' + dt + '\n');
+
+		if (lastDate == 'undefined' || lastDate != dt) {
+			chrome.storage.sync.set({
+				'DutyToday': {
+					'OnDuty': false,
+					'OffDuty': false
+				}
+			});
+		}
+
+		chrome.storage.sync.set({
+			'DayCheck': {
+				'LastDate': dt
+			}
+		});
+
+	});
 }

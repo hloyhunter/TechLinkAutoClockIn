@@ -27,7 +27,7 @@ chrome.extension.sendMessage({}, function (response) {
 			if (now > onTime - 500 && now < offTime && !onDuty) {
 				$('input[type=submit][value=上班]').click();
 			} else if (now > offTime && !offDuty) {
-				$('input[type=submit][value=1下班]').click();
+				$('input[type=submit][value=下班]').click();
 			}
 
 			onDuty = $('.textBlue').first().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;

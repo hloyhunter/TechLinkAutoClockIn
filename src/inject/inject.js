@@ -25,9 +25,9 @@ chrome.extension.sendMessage({}, function (response) {
 			var offDuty = $('.textBlue').last().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;
 
 			if (now > onTime - 500 && now < offTime && !onDuty) {
-				$('input[type=submit][value=§WØZ]').click();
+				$('input[type=submit][value=‰∏äÁè≠]').click();
 			} else if (now > offTime && !offDuty) {
-				$('input[type=submit][value=1§UØZ]').click();
+				$('input[type=submit][value=1‰∏ãÁè≠]').click();
 			}
 
 			onDuty = $('.textBlue').first().html().trim().replace(/&nbsp;/g, '') == '' ? false : true;

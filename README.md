@@ -1,4 +1,4 @@
-# 緯德科技自動打卡(Chrome擴充)
+# [緯德科技自動打卡(Chrome擴充)](https://chrome.google.com/webstore/detail/%E7%B7%AF%E5%BE%B7%E7%A7%91%E6%8A%80%E8%87%AA%E5%8B%95%E6%89%93%E5%8D%A1/nocbgnohiaaofaoahdginkmkkehljpmc)
 ## Patch Notes
 ### Patch 2.0.1
 * __Bug修正__

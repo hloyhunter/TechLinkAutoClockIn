@@ -71,7 +71,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
 chrome.storage.onChanged.addListener(function (changes, areaName) {
 	console.log(changes);
-	console.log(areaName);
 });
 
 //custom funcrions
@@ -96,7 +95,11 @@ function DailyReset() {
 	var lastDate;
 
 	chrome.storage.sync.get('DayCheck', function (obj) {
-		lastDate = obj.DayCheck.LastDate;
+		if (obj.DayCheck != 'undefined') {
+			lastDate = obj.DayCheck.LastDate;
+		} else {
+			lastDate = 0;
+		}
 		console.log('lastDate: ' + lastDate + '\n' +
 			'dt: ' + dt + '\n');
 
@@ -117,3 +120,21 @@ function DailyReset() {
 
 	});
 }
+
+//function CheckHoliday() {
+//	$.ajax({
+//		url: 'http://data.taipei/opendata/datalist/apiAccess',
+//		type: 'GET',
+//		dataType: 'json',
+//		data: {
+//			scope: 'resourceAquire',
+//			rid: 'c9b60d40-cb14-4796-9a6f-276fc1525128'
+//		},
+//		success: function (res) {
+//			console.log(res);
+//		},
+//		error: function () {
+//			alert('ajax error!');
+//		}
+//	});
+//}

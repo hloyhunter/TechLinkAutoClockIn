@@ -2,3 +2,4 @@
 .vs/*
 /Pack.bat
 *.zip
+.DS_Store

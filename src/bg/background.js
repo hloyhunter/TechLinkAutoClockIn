@@ -21,7 +21,7 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 	var now = parseInt(padLeft(d.getHours(), 2) + padLeft(d.getMinutes(), 2) + padLeft(d.getSeconds(), 2));
 
 	if(CheckHoliday(d)) {
-		return;
+		return false;
 	}
 
 	chrome.storage.sync.get('DutyToday', function (obj) {
@@ -126,11 +126,14 @@ function DailyReset() {
 }
 
 function CheckHoliday(d) {
+	var isHoliday = false;
 	var dateStr = (d.getFullYear() + '/' + (d.getMonth()+1) + '/' + d.getDate()).toString();
+	
 	$.ajax({
 		url: 'http://data.taipei/opendata/datalist/apiAccess',
 		type: 'GET',
 		dataType: 'json',
+		async: false,
 		data: {
 			scope: 'resourceAquire',
 			rid: 'c9b60d40-cb14-4796-9a6f-276fc1525128',
@@ -138,20 +141,21 @@ function CheckHoliday(d) {
 		},
 		success: function (res) {
 			var holidays = res.result.results;
-			if(holidays.lenth > 0) {
+			if(holidays.length > 0) {
 				if(holidays[0].isHoliday == '是'){
-					return true;
+					isHoliday = true;
 				}
-			}
-			return false;
+			} 
 		},
 		error: function () {
 			var day = d.getDay();
-			if(day == 5 || day == 6) {
-				return true;
+			if(day == 0 || day == 6) {
+				isHoliday = true;
 			} else {
-				return false;
+				isHoliday = false;
 			}
 		}
 	});
+	
+	return isHoliday;
 }
